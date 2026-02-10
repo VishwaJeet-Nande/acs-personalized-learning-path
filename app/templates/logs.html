@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Communication Logs</h2>
+
+<p>
+This page maintains an audit trail of academic communications approved
+and initiated by the Academic Committee.
+</p>
+
+<table>
+  <tr>
+    <th>Student Name</th>
+    <th>Risk Level</th>
+    <th>Timestamp</th>
+  </tr>
+
+  {% for log in logs %}
+  <tr>
+    <td>{{ log[0] }}</td>
+    <td>{{ log[1] }}</td>
+    <td>{{ log[2] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
