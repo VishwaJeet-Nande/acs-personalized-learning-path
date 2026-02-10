@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Academic Risk Dashboard</h2>
+<h2>ACS 2.0 — Academic Intervention Dashboard</h2>
+
+<p style="color:#555; margin-bottom:20px;">
+This dashboard assists the Academic Committee in identifying at-risk students early
+and initiating personalized academic interventions based on attendance trends.
+</p>
 
 <div class="dashboard-cards">
   <div class="card">
@@ -32,7 +37,7 @@
 </div>
 
 <a href="/export/csv">
-  <button style="margin-bottom:20px;">Export as CSV</button>
+  <button style="margin-bottom:20px;">Export Academic Report</button>
 </a>
 
 <table>
@@ -40,7 +45,7 @@
     <th>Name</th>
     <th>Risk</th>
     <th>Learning Path</th>
-    <th>Communication</th>
+    <th>Academic Communication Preview</th>
   </tr>
 
   {% for s in students %}
