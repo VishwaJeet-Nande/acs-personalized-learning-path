@@ -1,31 +1,20 @@
 {% extends "base.html" %}
+
 {% block content %}
 
-<h2>Communication Logs</h2>
-
-<p>
-This page maintains an audit trail of academic communications approved
-and initiated by the Academic Committee.
+<h1 style="font-size: 42px; margin-bottom: 10px;">
+    ✅ Communication Sent Successfully
+</h1>
+<p style="font-size: 18px; margin-bottom: 30px;">
+    All approved communications have been processed and logged.
 </p>
 
-<table>
-  <tr>
-    <th>Student Name</th>
-    <th>Student Email</th>
-    <th>Parent Email</th>
-    <th>Risk Level</th>
-    <th>Timestamp</th>
-  </tr>
-
-  {% for log in logs %}
-  <tr>
-    <td>{{ log[0] }}</td>
-    <td>{{ log[1] }}</td>
-    <td>{{ log[2] }}</td>
-    <td>{{ log[3] }}</td>
-    <td>{{ log[4] }}</td>
-  </tr>
-  {% endfor %}
-</table>
+<div class="hero">
+    <h1>Academic Communication System</h1>
+    <p>
+        Intelligent attendance analysis & personalized learning path
+        generation for academic institutions.
+    </p>
+</div>
 
 {% endblock %}

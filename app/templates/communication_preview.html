@@ -8,7 +8,7 @@ Below are the approved students. The system has prepared academic
 communication messages for students and parents.
 </p>
 
-<form method="post">
+<form method="POST" action="/communication/preview">
 
 {% for s in students %}
 <div class="card" style="margin-bottom:15px;">
@@ -26,7 +26,10 @@ communication messages for students and parents.
 </div>
 {% endfor %}
 
-<button type="submit">Send Communication</button>
+<button type="submit">
+    Send Communication
+</button>
+
 </form>
 
 {% endblock %}

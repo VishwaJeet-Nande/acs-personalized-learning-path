@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 from flask import redirect, session
 from services.email_service import send_email
 from flask import session
@@ -11,6 +13,7 @@ from services.subject_analysis_service import analyze_subjects
 from utils.validation import validate_file, validate_dataframe
 from flask import Response
 import csv
+import os
 
 app = Flask(__name__)
 
@@ -34,9 +37,28 @@ def login():
 
     return render_template("login.html")
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
-    return render_template("upload.html")
+    students = session.get("students", [])
+
+    total_students = len(students)
+    high_risk = len([s for s in students if s.get("risk") == "High"])
+    medium_risk = len([s for s in students if s.get("risk") == "Medium"])
+
+    # Count communications from CSV
+    sent_count = 0
+    if os.path.exists("communication_logs.csv"):
+        with open("communication_logs.csv") as f:
+            sent_count = sum(1 for _ in f) - 1  # minus header
+
+    return render_template(
+        "upload.html",
+        total_students=total_students,
+        high_risk=high_risk,
+        medium_risk=medium_risk,
+        sent_count=max(sent_count, 0)
+    )
+
 
 @app.route("/upload", methods=["POST"])
 def upload():
