@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ACS Login</title>
+</head>
+
+<body style="
+    background: linear-gradient(135deg, #0a1f44, #0f2a5f);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial;
+">
+
+<div style="
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 320px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+">
+
+<h2 style="text-align:center;">ACS 2.0 Login</h2>
+
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %}
+
+<form method="post">
+  <input type="text" name="username" placeholder="Username"
+         style="width:100%; padding:10px; margin-bottom:10px;" required>
+
+  <input type="password" name="password" placeholder="Password"
+         style="width:100%; padding:10px; margin-bottom:20px;" required>
+
+  <button type="submit"
+          style="width:100%; padding:10px;
+                 background:#0a1f44; color:white;
+                 border:none; border-radius:6px;">
+    Login
+  </button>
+</form>
+
+<p style="font-size:12px; margin-top:10px;">
+Demo: admin / admin123
+</p>
+
+</div>
+</body>
+</html>

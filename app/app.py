@@ -16,6 +16,24 @@ app = Flask(__name__)
 
 app.secret_key = "acs-secret-key"
 
+def login_required():
+    return session.get("logged_in")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Demo credentials
+        if username == "admin" and password == "admin123":
+            session["logged_in"] = True
+            return redirect("/")
+        else:
+            return render_template("login.html", error="Invalid credentials")
+
+    return render_template("login.html")
+
 @app.route("/")
 def home():
     return render_template("upload.html")
@@ -68,6 +86,8 @@ def upload():
 
 @app.route("/attendance/approval", methods=["GET", "POST"])
 def attendance_approval():
+    if not login_required():
+        return redirect("/login")
     students = session.get("students", [])  
 
     if request.method == "POST":
@@ -81,6 +101,8 @@ from datetime import datetime
 
 @app.route("/communication/preview", methods=["GET", "POST"])
 def communication_preview():
+    if not login_required():
+        return redirect("/login")
     students = session.get("students", [])
     approved_names = session.get("approved_students", [])
 
@@ -118,6 +140,8 @@ def communication_preview():
 
 @app.route("/logs")
 def logs():
+    if not login_required():
+        return redirect("/login")
     logs = []
 
     try:

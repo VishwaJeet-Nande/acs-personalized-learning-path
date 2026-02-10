@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Attendance Review & Approval</h2>
+
+<p>
+The Academic Committee reviews attendance analysis and approves
+students for academic communication.
+</p>
+
+<form method="post">
+
+<table>
+  <tr>
+    <th>Approve</th>
+    <th>Name</th>
+    <th>Risk</th>
+    <th>Learning Path</th>
+  </tr>
+
+  {% for s in students %}
+  <tr>
+    <td>
+      <input type="checkbox" name="approve" value="{{ s.name }}">
+    </td>
+    <td>{{ s.name }}</td>
+    <td>{{ s.risk }}</td>
+    <td>{{ s.path }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br>
+<button type="submit">Approve Communication</button>
+
+</form>
+
+{% endblock %}

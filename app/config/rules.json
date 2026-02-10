@@ -1,6 +1,6 @@
 {
   "attendance_thresholds": {
-    "low_risk": 75,
+    "low_risk": 81,
     "medium_risk": 65
   },
   "learning_paths": {

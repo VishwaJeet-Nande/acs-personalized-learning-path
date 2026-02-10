@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Academic Communication Preview</h2>
+
+<p>
+Below are the approved students. The system has prepared academic
+communication messages for students and parents.
+</p>
+
+<form method="post">
+
+{% for s in students %}
+<div class="card" style="margin-bottom:15px;">
+  <h3>{{ s.name }} ({{ s.risk }} Risk)</h3>
+
+  <details>
+    <summary>Student Message</summary>
+    <pre>{{ s.student_message }}</pre>
+  </details>
+
+  <details>
+    <summary>Parent Message</summary>
+    <pre>{{ s.parent_message }}</pre>
+  </details>
+</div>
+{% endfor %}
+
+<button type="submit">Send Communication</button>
+</form>
+
+{% endblock %}

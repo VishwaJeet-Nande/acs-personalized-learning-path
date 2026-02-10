@@ -81,35 +81,40 @@ details summary {
 <body>
 
 <nav style="
-    background: linear-gradient(90deg, #1f4d63, #2e6f8e);
-    padding: 14px 30px;
+    background: linear-gradient(90deg, #0a1f44, #0f2a5f);
+    padding: 18px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 ">
 
-  <div style="font-size: 20px; font-weight: bold;">
+  <div style="font-size: 22px; font-weight: bold;">
     ACS 2.0
   </div>
 
-<div style="display: flex; gap: 20px; align-items: center;">
-  <a href="/" style="color:white; text-decoration:none;">Home</a>
-  <a href="/attendance/approval" style="color:white; text-decoration:none;">Approvals</a>
-  <a href="/communication/preview" style="color:white; text-decoration:none;">Communication</a>
-  <a href="/logs" style="color:white; text-decoration:none;">Logs</a>
+  <div style="display: flex; gap: 24px; align-items: center;">
+    <a href="/" style="color:white; text-decoration:none; font-weight:500;">Home</a>
+    <a href="/attendance/approval" style="color:white; text-decoration:none; font-weight:500;">Approvals</a>
+    <a href="/communication/preview" style="color:white; text-decoration:none; font-weight:500;">Communication</a>
+    <a href="/logs" style="color:white; text-decoration:none; font-weight:500;">Logs</a>
 
-  <a href="/logout"
-     style="
-       color: white;
-       text-decoration: none;
-       padding: 6px 14px;
-       border: 1px solid white;
-       border-radius: 6px;
-     ">
-     Logout
-  </a>
-</div>
+    <a href="/logout"
+       style="
+         color: white;
+         text-decoration: none;
+         padding: 8px 18px;
+         border: 1px solid white;
+         border-radius: 8px;
+         font-weight: 500;
+       ">
+       Logout
+    </a>
+  </div>
 
 </nav>
 
