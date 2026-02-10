@@ -1,47 +1,60 @@
 {% extends "base.html" %}
-
 {% block content %}
-<h2>Personalized Learning Paths</h2>
+
+<h2>Academic Risk Dashboard</h2>
+
+<div class="dashboard-cards">
+  <div class="card">
+    <h3>Total Students</h3>
+    <p>{{ stats.total if stats is defined else 0 }}</p>
+  </div>
+
+  <div class="card">
+    <h3>Low Risk</h3>
+    <p class="low">{{ stats.low if stats is defined else 0 }}</p>
+  </div>
+
+  <div class="card">
+    <h3>Medium Risk</h3>
+    <p class="medium">{{ stats.medium if stats is defined else 0 }}</p>
+  </div>
+
+  <div class="card">
+    <h3>High Risk</h3>
+    <p class="high">{{ stats.high if stats is defined else 0 }}</p>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+  <h3>Active Academic Rules</h3>
+  <p>Low Risk ≥ {{ rules.attendance_thresholds.low_risk }}%</p>
+  <p>Medium Risk ≥ {{ rules.attendance_thresholds.medium_risk }}%</p>
+</div>
 
 <a href="/export/csv">
-  <button style="margin-bottom:15px;">Export as CSV</button>
+  <button style="margin-bottom:20px;">Export as CSV</button>
 </a>
-
-<div style="background:#E0E5E9;padding:15px;margin-bottom:20px;">
-  <strong>Active Rules:</strong><br>
-  Low Risk ≥ {{ rules.attendance_thresholds.low_risk }}%<br>
-  Medium Risk ≥ {{ rules.attendance_thresholds.medium_risk }}%
-</div>
 
 <table>
   <tr>
     <th>Name</th>
-    <th>Risk Level</th>
+    <th>Risk</th>
     <th>Learning Path</th>
-    <th>Communication Preview</th>
+    <th>Communication</th>
   </tr>
 
   {% for s in students %}
   <tr>
     <td>{{ s.name }}</td>
-
-    <td class="
-      {% if s.risk == 'Low' %}badge-low
-      {% elif s.risk == 'Medium' %}badge-medium
-      {% else %}badge-high
-      {% endif %}
-    ">
+    <td class="{% if s.risk == 'Low' %}low{% elif s.risk == 'Medium' %}medium{% else %}high{% endif %}">
       {{ s.risk }}
     </td>
-
     <td>{{ s.path }}</td>
-
     <td>
       <details>
         <summary>Student Message</summary>
         <pre>{{ s.student_message }}</pre>
       </details>
-
       <details>
         <summary>Parent Message</summary>
         <pre>{{ s.parent_message }}</pre>
@@ -50,4 +63,5 @@
   </tr>
   {% endfor %}
 </table>
+
 {% endblock %}
