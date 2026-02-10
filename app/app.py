@@ -1,3 +1,4 @@
+from services.message_service import generate_student_message, generate_parent_message
 from flask import Flask, render_template, request
 import pandas as pd
 
@@ -37,7 +38,6 @@ def upload():
         print("READ ERROR:", e)
         return render_template("error.html", message="Unable to read uploaded file.")
 
-    # Normalize headers
     df.columns = df.columns.str.strip().str.lower()
 
     data_error = validate_dataframe(df)
@@ -49,13 +49,24 @@ def upload():
 
     for name, subject_data in student_data.items():
         risk, path = generate_learning_path(subject_data)
+
+        student_msg = generate_student_message(name, risk, path)
+        parent_msg = generate_parent_message(name, risk, path)
+
         students.append({
             "name": name,
             "risk": risk,
-            "path": path
+            "path": path,
+            "student_message": student_msg,
+            "parent_message": parent_msg
         })
 
-    # 🔥 LOAD ACTIVE RULES INSIDE FUNCTION
+    stats = {
+        "total": len(students),
+        "low": sum(1 for s in students if s["risk"] == "Low"),
+        "medium": sum(1 for s in students if s["risk"] == "Medium"),
+        "high": sum(1 for s in students if s["risk"] == "High"),
+    }
     rules = load_rules()
 
     return render_template(

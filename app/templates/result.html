@@ -14,27 +14,40 @@
 </div>
 
 <table>
-    <tr>
-        <th>Name</th>
-        <th>Risk Level</th>
-        <th>Learning Path</th>
-    </tr>
+  <tr>
+    <th>Name</th>
+    <th>Risk Level</th>
+    <th>Learning Path</th>
+    <th>Communication Preview</th>
+  </tr>
 
-    {% for s in students %}
-    <tr>
-        <td>{{ s.name }}</td>
+  {% for s in students %}
+  <tr>
+    <td>{{ s.name }}</td>
 
-        <td class="
-            {% if s.risk == 'Low' %}badge-low
-            {% elif s.risk == 'Medium' %}badge-medium
-            {% else %}badge-high
-            {% endif %}
-        ">
-            {{ s.risk }}
-        </td>
+    <td class="
+      {% if s.risk == 'Low' %}badge-low
+      {% elif s.risk == 'Medium' %}badge-medium
+      {% else %}badge-high
+      {% endif %}
+    ">
+      {{ s.risk }}
+    </td>
 
-        <td>{{ s.path }}</td>
-    </tr>
-    {% endfor %}
+    <td>{{ s.path }}</td>
+
+    <td>
+      <details>
+        <summary>Student Message</summary>
+        <pre>{{ s.student_message }}</pre>
+      </details>
+
+      <details>
+        <summary>Parent Message</summary>
+        <pre>{{ s.parent_message }}</pre>
+      </details>
+    </td>
+  </tr>
+  {% endfor %}
 </table>
 {% endblock %}
