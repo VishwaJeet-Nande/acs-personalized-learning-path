@@ -52,5 +52,38 @@ def upload():
 
     return render_template("result.html", students=students)
 
+import json
+from pathlib import Path
+
+RULES_FILE = Path("config/rules.json")
+
+@app.route("/admin/rules", methods=["GET"])
+def view_rules():
+    with open(RULES_FILE) as f:
+        rules = json.load(f)
+    return render_template("admin_rules.html", rules=rules)
+
+@app.route("/admin/rules", methods=["POST"])
+def update_rules():
+    low = int(request.form["low_risk"])
+    medium = int(request.form["medium_risk"])
+
+    rules = {
+        "attendance_thresholds": {
+            "low_risk": low,
+            "medium_risk": medium
+        },
+        "learning_paths": {
+            "low": request.form["low_path"],
+            "medium": request.form["medium_path"],
+            "high": request.form["high_path"]
+        }
+    }
+
+    with open(RULES_FILE, "w") as f:
+        json.dump(rules, f, indent=2)
+
+    return render_template("admin_success.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

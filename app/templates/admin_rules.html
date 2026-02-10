@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Admin Rule Configuration</h2>
+
+<form method="post">
+
+<h3>Attendance Thresholds</h3>
+<label>Low Risk (%)</label><br>
+<input type="number" name="low_risk" value="{{ rules.attendance_thresholds.low_risk }}"><br><br>
+
+<label>Medium Risk (%)</label><br>
+<input type="number" name="medium_risk" value="{{ rules.attendance_thresholds.medium_risk }}"><br><br>
+
+<h3>Learning Paths</h3>
+
+<label>Low Risk Path</label><br>
+<textarea name="low_path">{{ rules.learning_paths.low }}</textarea><br><br>
+
+<label>Medium Risk Path</label><br>
+<textarea name="medium_path">{{ rules.learning_paths.medium }}</textarea><br><br>
+
+<label>High Risk Path</label><br>
+<textarea name="high_path">{{ rules.learning_paths.high }}</textarea><br><br>
+
+<button type="submit">Save Rules</button>
+
+</form>
+{% endblock %}
