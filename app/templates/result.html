@@ -3,6 +3,16 @@
 {% block content %}
 <h2>Personalized Learning Paths</h2>
 
+<a href="/export/csv">
+  <button style="margin-bottom:15px;">Export as CSV</button>
+</a>
+
+<div style="background:#E0E5E9;padding:15px;margin-bottom:20px;">
+  <strong>Active Rules:</strong><br>
+  Low Risk ≥ {{ rules.attendance_thresholds.low_risk }}%<br>
+  Medium Risk ≥ {{ rules.attendance_thresholds.medium_risk }}%
+</div>
+
 <table>
     <tr>
         <th>Name</th>
