@@ -8,11 +8,10 @@ def generate_learning_path(subject_data):
 
     for subject, records in subject_data.items():
 
-        # 🔒 SAFETY CHECK
-        if not records:
+        if not records or not isinstance(records, list):
             continue
-
-        # ✅ If single number → convert to list
+      
+       # ✅ If single number → convert to list
         if isinstance(records, (int, float)):
             attendance_list = [records]
 

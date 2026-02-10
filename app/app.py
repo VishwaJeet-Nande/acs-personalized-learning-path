@@ -90,18 +90,20 @@ def upload():
     students = []
 
     # ✅ FIXED LOOP
-    for name, subject_data in student_data.items():
-        risk, path = generate_learning_path(subject_data)
+    for name, data in student_data.items():
 
-        print("DEBUG EMAIL FLOW:")
-        print("Student:", name)
-        print("Student email:", subject_data.get("student_email"))
-        print("Parent email:", subject_data.get("parent_email"))
+        subjects = data.get("subjects", {})
+
+        if not subjects:
+            risk = "Low"
+            path = "No attendance data available."
+        else:
+            risk, path = generate_learning_path(subjects)
 
         students.append({
             "name": name,
-            "student_email": subject_data.get("student_email"),
-            "parent_email": subject_data.get("parent_email"),
+            "student_email": data.get("student_email"),
+            "parent_email": data.get("parent_email"),
             "risk": risk,
             "path": path,
             "student_message": generate_student_message(name, risk, path),
