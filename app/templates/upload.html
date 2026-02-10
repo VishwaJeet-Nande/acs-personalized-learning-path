@@ -3,65 +3,59 @@
 {% block content %}
 
 <!-- DASHBOARD STATS -->
-<div style="
-    display:flex;
-    gap:24px;
-    flex-wrap:wrap;
-    margin-bottom:60px;
-">
+<div style="display:flex; gap:24px; flex-wrap:wrap; margin-bottom:50px;">
 
-  <div class="card" style="flex:1; min-width:220px;">
-    <h3 style="font-size:15px; letter-spacing:0.5px;">Total Students</h3>
-    <p style="font-size:36px; font-weight:900;">
-        {{ total_students or 0 }}
-    </p>
+  <div class="card" style="flex:1; min-width:220px; text-align:left;">
+    <h4 style="color:#6b7280; margin-bottom:10px;">Total Students</h4>
+    <div style="font-size:48px; font-weight:800; color:#0a1f44;">
+      {{ total_students or 0 }}
+    </div>
   </div>
 
   <div class="card" style="flex:1; min-width:220px;">
-    <h3 style="font-size:15px;">High Risk</h3>
-    <p class="high" style="font-size:36px; font-weight:900;">
-        {{ high_risk or 0 }}
-    </p>
+    <h4 style="color:#6b7280; margin-bottom:10px;">High Risk</h4>
+    <div style="font-size:48px; font-weight:800; color:#dc2626;">
+      {{ high_risk or 0 }}
+    </div>
   </div>
 
   <div class="card" style="flex:1; min-width:220px;">
-    <h3 style="font-size:15px;">Medium Risk</h3>
-    <p class="medium" style="font-size:36px; font-weight:900;">
-        {{ medium_risk or 0 }}
-    </p>
+    <h4 style="color:#6b7280; margin-bottom:10px;">Medium Risk</h4>
+    <div style="font-size:48px; font-weight:800; color:#f59e0b;">
+      {{ medium_risk or 0 }}
+    </div>
   </div>
 
   <div class="card" style="flex:1; min-width:220px;">
-    <h3 style="font-size:15px;">Communications Sent</h3>
-    <p style="font-size:36px; font-weight:900;">
-        {{ sent_count or 0 }}
-    </p>
+    <h4 style="color:#6b7280; margin-bottom:10px;">Emails Sent</h4>
+    <div style="font-size:48px; font-weight:800; color:#2563eb;">
+      {{ sent_count or 0 }}
+    </div>
   </div>
 
 </div>
 
 <!-- HERO SECTION -->
 <div class="hero">
-    <h1>Academic Communication System</h1>
-    <p>
-        Intelligent attendance analysis & personalized learning path
-        generation for academic institutions.
-    </p>
+  <h1>Academic Communication System</h1>
+  <p>
+    Intelligent attendance analysis & personalized learning path
+    generation for academic institutions.
+  </p>
 </div>
 
 <!-- UPLOAD CARD -->
 <div class="upload-card">
-    <h2>Upload Attendance File</h2>
+  <h2>Upload Attendance File</h2>
+  <p style="color:#475569; margin-bottom:20px;">
+    Upload the attendance Excel file to analyze student risk levels and
+    trigger personalized academic interventions.
+  </p>
 
-    <p style="margin-bottom:22px; color:#475569;">
-        Upload the attendance Excel file to analyze student risk levels
-        and trigger personalized academic interventions.
-    </p>
-
-    <form method="POST" enctype="multipart/form-data" action="/upload">
-        <input type="file" name="file" required>
-        <button type="submit">Upload & Analyze</button>
-    </form>
+  <form method="POST" enctype="multipart/form-data" action="/upload">
+    <input type="file" name="file" required>
+    <button type="submit">Upload & Analyze</button>
+  </form>
 </div>
 
 {% endblock %}

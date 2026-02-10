@@ -111,10 +111,24 @@ th {
 }
 
 .hero h1 {
-    font-size: 56px;
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 14px;
+    font-size: 60px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+.hero {
+    animation: fadeInUp 0.9s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero p {
@@ -125,20 +139,28 @@ th {
 
 /* UPLOAD CARD */
 .upload-card {
-    max-width: 520px;
-    margin: 50px auto;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    max-width: 540px;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 42px;
+    border-radius: 18px;
+    box-shadow: 0 25px 45px rgba(0,0,0,0.35);
     color: #0a1f44;
 }
 
 .upload-card h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    font-weight: 700;
+    color: #0a1f44;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 10px;
 }
+
+.upload-card p {
+    color: #2c3e50;
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
 
 .upload-card input[type="file"] {
     display: block;
