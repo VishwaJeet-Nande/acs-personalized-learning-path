@@ -1,0 +1,11 @@
+{
+  "attendance_thresholds": {
+    "low": 80,
+    "medium": 65
+  },
+  "learning_paths": {
+    "low": "Self study with periodic review",
+    "medium": "Faculty mentoring and structured revision",
+    "high": "Counseling and strict academic monitoring"
+  }
+}

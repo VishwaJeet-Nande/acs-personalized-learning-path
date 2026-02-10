@@ -59,7 +59,6 @@ def home():
         sent_count=max(sent_count, 0)
     )
 
-
 @app.route("/upload", methods=["POST"])
 def upload():
     file = request.files.get("file")
@@ -90,8 +89,14 @@ def upload():
     student_data = analyze_subjects(df)
     students = []
 
+    # ✅ FIXED LOOP
     for name, subject_data in student_data.items():
         risk, path = generate_learning_path(subject_data)
+
+        print("DEBUG EMAIL FLOW:")
+        print("Student:", name)
+        print("Student email:", subject_data.get("student_email"))
+        print("Parent email:", subject_data.get("parent_email"))
 
         students.append({
             "name": name,

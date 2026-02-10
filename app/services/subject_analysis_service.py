@@ -1,18 +1,19 @@
 def analyze_subjects(df):
-    student_data = {}
+    data = {}
 
     for _, row in df.iterrows():
         name = row["name"]
+
+        if name not in data:
+            data[name] = {
+                "subjects": {},
+                "student_email": row.get("student_email"),
+                "parent_email": row.get("parent_email")
+            }
+
         subject = row["subject"]
-        week = int(row["week"])
-        attendance = int(row["attendance"])
+        attendance = row["attendance"]
 
-        if name not in student_data:
-            student_data[name] = {}
+        data[name]["subjects"][subject] = attendance
 
-        if subject not in student_data[name]:
-            student_data[name][subject] = []
-
-        student_data[name][subject].append((week, attendance))
-
-    return student_data
+    return data

@@ -1,10 +1,17 @@
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
 import smtplib
 from email.message import EmailMessage
-import os
 
 def send_email(to_email, subject, body):
     sender = os.getenv("ACS_EMAIL")
     password = os.getenv("ACS_EMAIL_PASSWORD")
+
+    # DEBUG: CHECK ENV LOADING
+    print("EMAIL:", sender)
+    print("PASSWORD LOADED:", bool(password))
 
     # DEMO SAFETY CHECK
     if not sender or not password:
@@ -22,6 +29,7 @@ def send_email(to_email, subject, body):
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
             smtp.login(sender, password)
             smtp.send_message(msg)
+
         print(f"[EMAIL SENT] → {to_email}")
         return True
 
