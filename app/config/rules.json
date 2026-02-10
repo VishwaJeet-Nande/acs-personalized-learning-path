@@ -1,0 +1,11 @@
+{
+  "attendance_thresholds": {
+    "low_risk": 75,
+    "medium_risk": 65
+  },
+  "learning_paths": {
+    "low": "Maintain consistency and self-study",
+    "medium": "Faculty mentoring and structured revision",
+    "high": "Counseling and strict academic monitoring"
+  }
+}

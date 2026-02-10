@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ACS+ | Personalized Learning Path</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #004E64;
+            color: white;
+            padding: 15px 30px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #E0E5E9;
+        }
+
+        .badge-low {
+            color: green;
+            font-weight: bold;
+        }
+
+        .badge-medium {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .badge-high {
+            color: red;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #004E64;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+
+</head>
+<body>
+
+<header>
+    <h1>ACS+ | Personalized Academic Learning Path System</h1>
+</header>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

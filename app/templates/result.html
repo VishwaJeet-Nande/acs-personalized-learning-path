@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Personalized Learning Paths</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Risk Level</th>
+        <th>Learning Path</th>
+    </tr>
+
+    {% for s in students %}
+    <tr>
+        <td>{{ s.name }}</td>
+
+        <td class="
+            {% if s.risk == 'Low' %}badge-low
+            {% elif s.risk == 'Medium' %}badge-medium
+            {% else %}badge-high
+            {% endif %}
+        ">
+            {{ s.risk }}
+        </td>
+
+        <td>{{ s.path }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
