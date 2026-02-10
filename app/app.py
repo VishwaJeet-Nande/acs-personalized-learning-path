@@ -10,6 +10,7 @@ import pandas as pd
 from services.rule_engine_service import load_rules
 from services.learning_path_service import generate_learning_path
 from services.subject_analysis_service import analyze_subjects
+from services.intervention_service import generate_intervention_timeline
 from utils.validation import validate_file, validate_dataframe
 from flask import Response
 import csv
@@ -89,30 +90,30 @@ def upload():
     student_data = analyze_subjects(df)
     students = []
 
-    # ✅ FIXED LOOP
-    for name, data in student_data.items():
+    # 🔥 THIS LOOP WAS BROKEN BEFORE — FIXED NOW
+    for name, subject_data in student_data.items():
 
-        subjects = data.get("subjects", {})
+        risk, path, weak_subjects = generate_learning_path(subject_data)
+        timeline = generate_intervention_timeline(risk, weak_subjects)
 
-        if not subjects:
-            risk = "Low"
-            path = "No attendance data available."
-        else:
-            risk, path = generate_learning_path(subjects)
+        print("DEBUG EMAIL FLOW:")
+        print("Student:", name)
+        print("Student email:", subject_data.get("student_email"))
+        print("Parent email:", subject_data.get("parent_email"))
 
         students.append({
             "name": name,
-            "student_email": data.get("student_email"),
-            "parent_email": data.get("parent_email"),
+            "student_email": subject_data.get("student_email"),
+            "parent_email": subject_data.get("parent_email"),
             "risk": risk,
             "path": path,
+            "timeline": timeline,
             "student_message": generate_student_message(name, risk, path),
             "parent_message": generate_parent_message(name, risk, path)
         })
 
     session["students"] = students
     return redirect("/attendance/approval")
-
 @app.route("/attendance/approval", methods=["GET", "POST"])
 def attendance_approval():
     if not login_required():

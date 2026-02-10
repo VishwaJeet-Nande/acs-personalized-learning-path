@@ -16,6 +16,7 @@ students for academic communication.
     <th>Name</th>
     <th>Risk</th>
     <th>Learning Path</th>
+    <th>Intervention Timeline</th>
   </tr>
 
   {% for s in students %}
@@ -26,7 +27,19 @@ students for academic communication.
     <td>{{ s.name }}</td>
     <td>{{ s.risk }}</td>
     <td>{{ s.path }}</td>
+  <td>
+   {% if s.timeline and s.timeline|length > 0 %}
+     <ul style="padding-left:18px; margin:0;">
+       {% for step in s.timeline %}
+          <li>{{ step }}</li>
+        {% endfor %}
+       </ul>
+     {% else %}
+      <em style="color:#6b7280;">No intervention required</em>
+     {% endif %}
+  </td>
   </tr>
+
   {% endfor %}
 </table>
 
