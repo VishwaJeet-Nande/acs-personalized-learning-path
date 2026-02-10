@@ -1,5 +1,8 @@
+from flask import redirect, session
+from services.email_service import send_email
+from flask import session
 from services.message_service import generate_student_message, generate_parent_message
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, session
 import pandas as pd
 
 from services.rule_engine_service import load_rules
@@ -10,6 +13,8 @@ from flask import Response
 import csv
 
 app = Flask(__name__)
+
+app.secret_key = "acs-secret-key"
 
 @app.route("/")
 def home():
@@ -28,12 +33,10 @@ def upload():
 
     try:
         file.stream.seek(0)
-
         if file.filename.endswith(".csv"):
             df = pd.read_csv(file)
         else:
             df = pd.read_excel(file, engine="openpyxl")
-
     except Exception as e:
         print("READ ERROR:", e)
         return render_template("error.html", message="Unable to read uploaded file.")
@@ -50,30 +53,82 @@ def upload():
     for name, subject_data in student_data.items():
         risk, path = generate_learning_path(subject_data)
 
-        student_msg = generate_student_message(name, risk, path)
-        parent_msg = generate_parent_message(name, risk, path)
-
         students.append({
             "name": name,
+            "student_email": subject_data.get("student_email"),
+            "parent_email": subject_data.get("parent_email"),
             "risk": risk,
             "path": path,
-            "student_message": student_msg,
-            "parent_message": parent_msg
+            "student_message": generate_student_message(name, risk, path),
+            "parent_message": generate_parent_message(name, risk, path)
         })
 
-    stats = {
-        "total": len(students),
-        "low": sum(1 for s in students if s["risk"] == "Low"),
-        "medium": sum(1 for s in students if s["risk"] == "Medium"),
-        "high": sum(1 for s in students if s["risk"] == "High"),
-    }
-    rules = load_rules()
+    session["students"] = students
+    return redirect("/attendance/approval")
 
-    return render_template(
-        "result.html",
-        students=students,
-        rules=rules
-    )
+@app.route("/attendance/approval", methods=["GET", "POST"])
+def attendance_approval():
+    students = session.get("students", [])  
+
+    if request.method == "POST":
+        approved = request.form.getlist("approve")
+        session["approved_students"] = approved
+        return redirect("/communication/preview")
+        
+    return render_template("attendance_approval.html", students=students)
+
+from datetime import datetime
+
+@app.route("/communication/preview", methods=["GET", "POST"])
+def communication_preview():
+    students = session.get("students", [])
+    approved_names = session.get("approved_students", [])
+
+    approved_students = [
+        s for s in students if s["name"] in approved_names
+    ]
+
+    if request.method == "POST":
+        with open("communication_logs.csv", "a", newline="") as f:
+            writer = csv.writer(f)
+
+            for s in approved_students:
+                send_email(
+                    s["student_email"],
+                    "Academic Guidance Notification",
+                    s["student_message"]
+                )
+                send_email(
+                    s["parent_email"],
+                    "Academic Status Update",
+                    s["parent_message"]
+                )
+
+                writer.writerow([
+                    s["name"],
+                    s["student_email"],
+                    s["parent_email"],
+                    s["risk"],
+                    datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                ])
+
+        return redirect("/logs")
+
+    return render_template("communication_preview.html", students=approved_students)
+
+@app.route("/logs")
+def logs():
+    logs = []
+
+    try:
+        with open("communication_logs.csv", newline="") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                logs.append(row)
+    except FileNotFoundError:
+        pass
+
+    return render_template("logs.html", logs=logs)
 
 @app.route("/export/csv")
 def export_csv():
@@ -93,6 +148,7 @@ def export_csv():
     # TEMP DEMO DATA (same structure as result page)
     # Judges care about functionality, not persistence here
     demo_students = [
+
         ("Rahul", "Medium", "Faculty mentoring and structured revision"),
         ("Amit", "Medium", "Faculty mentoring and structured revision"),
         ("Sneha", "High", "Counseling and strict academic monitoring")
@@ -105,13 +161,8 @@ def export_csv():
         for row in output:
             yield ",".join(row) + "\n"
 
-    return Response(
-        generate(),
-        mimetype="text/csv",
-        headers={
-            "Content-Disposition": "attachment; filename=learning_paths.csv"
-        }
-    )
+    session["students"] = students
+    return redirect("/attendance/approval")
 
 import json
 from pathlib import Path
@@ -145,6 +196,11 @@ def update_rules():
         json.dump(rules, f, indent=2)
 
     return render_template("admin_success.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True)
